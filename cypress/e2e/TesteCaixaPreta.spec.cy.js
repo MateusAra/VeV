@@ -1,6 +1,6 @@
 /// <reference types="Cypress"/>
 import 'cypress-xpath'
-describe('RF01 - Login', () => {
+describe.only('RF01 - Login', () => {
   beforeEach(() => {
     cy.visit('https://phptravels.org/login')
   });
@@ -51,7 +51,7 @@ describe('RF01 - Login', () => {
     cy.get('#Primary_Navbar-Store > .pr-4').click()
     cy.get('#Primary_Navbar-Store > .dropdown-menu').should('be.visible')
   })
-  it(' [CT - 010] - Verificar se o usuário consegue acessar a página do twitter selecionando o icone do mesmo.', () => {
+  it('[CT - 010] - Verificar se o usuário consegue acessar a página do twitter selecionando o icone do mesmo.', () => {
     cy.get('#footer > div > ul.list-inline.mb-7.text-center.float-lg-right > li:nth-child(4) > a').should('have.attr', 'href', 'https://www.twitter.com/https://twitter.com/phptravels')
   })
   it('[CT - 011] - Verificar se o usuário consegue trocar a linguagem do site para português.', () => {
@@ -60,13 +60,30 @@ describe('RF01 - Login', () => {
     cy.get('#modalChooseLanguage > .modal-dialog > .modal-content > .modal-footer > .btn').click()
     cy.get('.h3').should('have.text', 'Entrar')
   })
+  it('[CT - 012] - Verificar se o usuário consegue acessar o Affiliates sem estar logado.', () => {
+    cy.get('.d-xl-none > .btn').click()
+    cy.get('#Primary_Navbar-Affiliates > .pr-4').click()
+    cy.get('.h3').should('not.be.visible')
+  })
+  it('[CT - 26] - Verificar se clicando no ícone " Whatsapp " na tela inicial o usuário é redirecionado com sucesso para a página do Whatsapp da empresa.', () => {
+    cy.get(':nth-child(5) > .btn > .fab').click()
+    cy.url().then((currentUrl) => {
+      cy.url().should('not.equal', currentUrl);
+    });
+  })
+  it('[CT - 27] - Verificar se clicando no ícone " Youtube " na tela inicial o usuário é redirecionado com sucesso para a página do youtube da empresa.', () => {
+    cy.get(':nth-child(6) > .btn > .fab').click()
+    cy.url().then((currentUrl) => {
+      cy.url().should('not.equal', currentUrl);
+    });
+  })
 })
 
 describe('RF02 - Registro',() =>{
   beforeEach(() => {
     cy.visit('https://phptravels.org/register.php')
   });
-  it('[CT - 005] - Todos os campos estão preenchidos corretamente.', () => {
+  it('[CT - 012] - Todos os campos estão preenchidos corretamente.', () => {
     cy.get('#inputFirstName').type('Mateus')
     cy.get('#inputLastName').type('Araujo')
     cy.get('#inputEmail').type('mateus235araujo@gmail.com')
@@ -84,7 +101,7 @@ describe('RF02 - Registro',() =>{
     cy.get('[align="center"] > .btn').click()
     cy.get('.navbar-brand').should('be.visible')
   })
-  it('[CT - 006] - Nome está correto, mas outros campos estão em branco.', () => {
+  it('[CT - 013] - Nome está correto, mas outros campos estão em branco.', () => {
     cy.get('#inputFirstName').type('Mateus')
     cy.get('[align="center"] > .btn').click()
     cy.get('#inputLastName').should('have.attr', 'required')
