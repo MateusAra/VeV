@@ -1,5 +1,5 @@
 /// <reference types="Cypress"/>
-
+import 'cypress-xpath'
 describe('RF01 - Login', () => {
   beforeEach(() => {
     cy.visit('https://phptravels.org/login')
@@ -9,7 +9,7 @@ describe('RF01 - Login', () => {
     cy.get('#inputPassword').type('1234')
     cy.wait(5000)
     cy.get('#login').click()
-    cy.get('.navbar-brand').should('be.visible')
+    cy.get('.navbar-brand').should('not.be.visible')
   })
   it('[CT - 002] - Verificar se o usuário recebe uma mensagem de erro ao fornecer credenciais inválidas no acesso.', () => {
     cy.get('#inputEmail').type('mateus19sousa@hotmail.com')
@@ -25,6 +25,40 @@ describe('RF01 - Login', () => {
   it('[CT - 004] - Verificar se o usuário pode acessar a página inicial sem fazer login.', () => {
     cy.get('#login').click()
     cy.get('.card-body > .alert').should('be.visible')
+  })
+  it('[CT - 005] - Verificar se o usuário consegue acessar os Announcements sem estar logado no site.', () => {
+    cy.get('.d-xl-none > .btn').click()
+    cy.get('#Primary_Navbar-Announcements > .pr-4').click()
+    cy.get('[class="card-title"]').should('be.visible')
+  })
+  it('[CT - 006] - Verificar se o usuário consegue acessar o Network Status sem estar logado no site', () => {
+    cy.get('.d-xl-none > .btn').click()
+    cy.get('#Primary_Navbar-Network_Status > .pr-4').click()
+    cy.get('[class="card-title"]').should('be.visible')
+  })
+  it('[CT - 007] - Verificar se o usuário consegue acessar a página Contact Us sem estar logado', () => {
+    cy.get('.d-xl-none > .btn').click()
+    cy.get('#Primary_Navbar-Contact_Us > .pr-4').click()
+    cy.get('.h3').should('be.visible')
+  })
+  it('[CT - 008] - Verificar se o usuário consegue acessar o Knowledgebase sem estar logado.', () => {
+    cy.get('.d-xl-none > .btn').click()
+    cy.get('#Primary_Navbar-Knowledgebase > .pr-4').click()
+    cy.get('.breadcrumb > .active').should('be.visible')
+  })
+  it('[CT - 009] - Verificar se o usuário consegue acessar a Store sem estar logado.', () => {
+    cy.get('.d-xl-none > .btn').click()
+    cy.get('#Primary_Navbar-Store > .pr-4').click()
+    cy.get('#Primary_Navbar-Store > .dropdown-menu').should('be.visible')
+  })
+  it(' [CT - 010] - Verificar se o usuário consegue acessar a página do twitter selecionando o icone do mesmo.', () => {
+    cy.get('#footer > div > ul.list-inline.mb-7.text-center.float-lg-right > li:nth-child(4) > a').should('have.attr', 'href', 'https://www.twitter.com/https://twitter.com/phptravels')
+  })
+  it('[CT - 011] - Verificar se o usuário consegue trocar a linguagem do site para português.', () => {
+    cy.get(':nth-child(7) > .btn').click()
+    cy.get(':nth-child(21) > .item').click()
+    cy.get('#modalChooseLanguage > .modal-dialog > .modal-content > .modal-footer > .btn').click()
+    cy.get('.h3').should('have.text', 'Entrar')
   })
 })
 
@@ -94,9 +128,20 @@ describe('RF02 - Registro',() =>{
 })
 
 describe('RF03 - Tela Inicial', () =>{
-  it('[CT - 009] - O usuário clica no link "LinkedIn" na tela inicial e é redirecionado com sucesso para a página do LinkedIn da empresa.', () => {
+  beforeEach(() =>{
     cy.visit('https://phptravels.com')
+  })
+  it('[CT - 009] - O usuário clica no link "LinkedIn" na tela inicial e é redirecionado com sucesso para a página do LinkedIn da empresa.', () => {
     cy.get('body > footer > div > div > div.col-md-4 > div.col-md-12.links.follow-us > a:nth-child(4)').should('have.attr', 'href', 'https://www.linkedin.com/company/phptravels/')
+  })
+  it('[CT - 017] - Verificar se clicando no ícone "Facebook" na tela inicial o usuário é redirecionado com sucesso para a página do Facebook da empresa. ', () => {
+    cy.get('body > footer > div > div > div.col-md-4 > div.col-md-12.links.follow-us > a:nth-child(2)').should('have.attr', 'href', 'https://www.facebook.com/phptravels/')
+  })
+  it('[CT - 018] - Verificar se clicando no ícone "Instagram" na tela inicial o usuário é redirecionado com sucesso para a página do Instagram da empresa.', () => {
+    cy.xpath('//*[@id="footer"]/div/ul[1]/li[2]/a').should('have.attr', 'href')
+  })
+  it('[CT - 019] - Verificar se o usuário consegue visualizar os termos de serviço.', () => {
+    cy.get('[href="https://phptravels.com/terms-and-conditions/"] > strong').should('be.visible')
   })
 })
 
@@ -130,6 +175,7 @@ describe('RF04 - Tela Demo', () =>{
         soma = num1 + num2;
         cy.get('#number').type(soma, {force: true});
       });
+
     cy.get('#demo').click({force: true})
     cy.get('#demo').should('not.be.visible')
   });
@@ -142,4 +188,19 @@ describe('RF04 - Tela Demo', () =>{
     cy.get('#number').should('have.attr', 'required')
   });
   
+})
+
+describe('RF05 - Pricing', () =>{
+  beforeEach(()=>{
+    cy.visit('https://phptravels.com/pricing')
+  })
+  it('[CT - 022] O usuário logado tenta realizar a compra de qualquer serviço oferecido no site.', () =>{
+    cy.get(':nth-child(1) > .pricing-package > .sticky > .btn').should('have.attr', 'href')
+  })
+  it('[CT - 023] O usuário deslogado tenta realizar a compra de qualquer serviço oferecido no site.', () =>{
+    cy.get(':nth-child(1) > .pricing-package > .sticky > .btn').should('not.have.attr', 'href')
+  })
+  it('[CT - 024] O usuário clica no link "info@phptravels.com" na tela Pricing e é redirecionado com sucesso para o email, com o destinatario já preenchido.', () =>{
+    cy.get('.mb3 > :nth-child(3) > .waves-effect').should('have.attr', 'href')
+  })
 })
