@@ -1,6 +1,6 @@
 /// <reference types="Cypress"/>
 import 'cypress-xpath'
-describe.only('RF01 - Login', () => {
+describe('RF01 - Login', () => {
   beforeEach(() => {
     cy.visit('https://phptravels.org/login')
   });
