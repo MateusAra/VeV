@@ -65,13 +65,13 @@ describe('RF01 - Login', () => {
     cy.get('#Primary_Navbar-Affiliates > .pr-4').click()
     cy.get('.h3').should('not.be.visible')
   })
-  it('[CT - 26] - Verificar se clicando no ícone " Whatsapp " na tela inicial o usuário é redirecionado com sucesso para a página do Whatsapp da empresa.', () => {
+  it('[CT - 13] - Verificar se clicando no ícone " Whatsapp " na tela inicial o usuário é redirecionado com sucesso para a página do Whatsapp da empresa.', () => {
     cy.get(':nth-child(5) > .btn > .fab').click()
     cy.url().then((currentUrl) => {
       cy.url().should('not.equal', currentUrl);
     });
   })
-  it('[CT - 27] - Verificar se clicando no ícone " Youtube " na tela inicial o usuário é redirecionado com sucesso para a página do youtube da empresa.', () => {
+  it('[CT - 14] - Verificar se clicando no ícone " Youtube " na tela inicial o usuário é redirecionado com sucesso para a página do youtube da empresa.', () => {
     cy.get(':nth-child(6) > .btn > .fab').click()
     cy.url().then((currentUrl) => {
       cy.url().should('not.equal', currentUrl);
@@ -83,7 +83,7 @@ describe('RF02 - Registro',() =>{
   beforeEach(() => {
     cy.visit('https://phptravels.org/register.php')
   });
-  it('[CT - 012] - Todos os campos estão preenchidos corretamente.', () => {
+  it('[CT - 015] - Todos os campos estão preenchidos corretamente.', () => {
     cy.get('#inputFirstName').type('Mateus')
     cy.get('#inputLastName').type('Araujo')
     cy.get('#inputEmail').type('mateus235araujo@gmail.com')
@@ -101,12 +101,12 @@ describe('RF02 - Registro',() =>{
     cy.get('[align="center"] > .btn').click()
     cy.get('.navbar-brand').should('be.visible')
   })
-  it('[CT - 013] - Nome está correto, mas outros campos estão em branco.', () => {
+  it('[CT - 016] - Nome está correto, mas outros campos estão em branco.', () => {
     cy.get('#inputFirstName').type('Mateus')
     cy.get('[align="center"] > .btn').click()
     cy.get('#inputLastName').should('have.attr', 'required')
   })
-  it(' [CT - 007] - Nome contém caracteres inválidos.', () => {
+  it('[CT - 017] - Nome contém caracteres inválidos.', () => {
     cy.get('#inputFirstName').type('#$$%*&¨!@_+=')
     cy.get('#inputLastName').type('Araujo')
     cy.get('#inputEmail').type('mateus2araujo@gmail.com')
@@ -124,7 +124,7 @@ describe('RF02 - Registro',() =>{
     cy.get('[align="center"] > .btn').click()
     cy.get('.card-body > .alert').should('be.visible')
   })
-  it('[CT - 008] - O E-mail fornecido é inválido.', () => {
+  it('[CT - 018] - O E-mail fornecido é inválido.', () => {
     cy.get('#inputFirstName').type('Mateus')
     cy.get('#inputLastName').type('Araujo')
     cy.get('#inputEmail').type('mateus23araujo')
@@ -148,16 +148,16 @@ describe('RF03 - Tela Inicial', () =>{
   beforeEach(() =>{
     cy.visit('https://phptravels.com')
   })
-  it('[CT - 009] - O usuário clica no link "LinkedIn" na tela inicial e é redirecionado com sucesso para a página do LinkedIn da empresa.', () => {
+  it('[CT - 019] - O usuário clica no link "LinkedIn" na tela inicial e é redirecionado com sucesso para a página do LinkedIn da empresa.', () => {
     cy.get('body > footer > div > div > div.col-md-4 > div.col-md-12.links.follow-us > a:nth-child(4)').should('have.attr', 'href', 'https://www.linkedin.com/company/phptravels/')
   })
-  it('[CT - 017] - Verificar se clicando no ícone "Facebook" na tela inicial o usuário é redirecionado com sucesso para a página do Facebook da empresa. ', () => {
+  it('[CT - 020] - Verificar se clicando no ícone "Facebook" na tela inicial o usuário é redirecionado com sucesso para a página do Facebook da empresa. ', () => {
     cy.get('body > footer > div > div > div.col-md-4 > div.col-md-12.links.follow-us > a:nth-child(2)').should('have.attr', 'href', 'https://www.facebook.com/phptravels/')
   })
-  it('[CT - 018] - Verificar se clicando no ícone "Instagram" na tela inicial o usuário é redirecionado com sucesso para a página do Instagram da empresa.', () => {
+  it('[CT - 021] - Verificar se clicando no ícone "Instagram" na tela inicial o usuário é redirecionado com sucesso para a página do Instagram da empresa.', () => {
     cy.xpath('//*[@id="footer"]/div/ul[1]/li[2]/a').should('have.attr', 'href')
   })
-  it('[CT - 019] - Verificar se o usuário consegue visualizar os termos de serviço.', () => {
+  it('[CT - 022] - Verificar se o usuário consegue visualizar os termos de serviço.', () => {
     cy.get('[href="https://phptravels.com/terms-and-conditions/"] > strong').should('be.visible')
   })
 })
@@ -166,7 +166,7 @@ describe('RF04 - Tela Demo', () =>{
   beforeEach(() => {
     cy.visit('https://phptravels.com/demo')
   });
-  it('[CT - 010] O usuário preenche todos os campos obrigatórios e consegue criar a conta demo com sucesso.', () => {
+  it('[CT - 023] O usuário preenche todos os campos obrigatórios e consegue criar a conta demo com sucesso.', () => {
     let num1;
     let num2;
     let soma;
@@ -196,7 +196,7 @@ describe('RF04 - Tela Demo', () =>{
     cy.get('#demo').click({force: true})
     cy.get('#demo').should('not.be.visible')
   });
-  it('[CT - 011] O usuário não preenche um ou mais campos obrigatórios e tenta criar a conta demo.', () => {
+  it('[CT - 024] O usuário não preenche um ou mais campos obrigatórios e tenta criar a conta demo.', () => {
     cy.get('[placeholder="First Name"]').type('Mateus', { force: true });
     cy.get('.last_name').type('araujo', { force: true });
     cy.get('.business_name').type('MtsTestes', { force: true });
@@ -211,13 +211,13 @@ describe('RF05 - Pricing', () =>{
   beforeEach(()=>{
     cy.visit('https://phptravels.com/pricing')
   })
-  it('[CT - 022] O usuário logado tenta realizar a compra de qualquer serviço oferecido no site.', () =>{
+  it('[CT - 025] O usuário logado tenta realizar a compra de qualquer serviço oferecido no site.', () =>{
     cy.get(':nth-child(1) > .pricing-package > .sticky > .btn').should('have.attr', 'href')
   })
-  it('[CT - 023] O usuário deslogado tenta realizar a compra de qualquer serviço oferecido no site.', () =>{
+  it('[CT - 026] O usuário deslogado tenta realizar a compra de qualquer serviço oferecido no site.', () =>{
     cy.get(':nth-child(1) > .pricing-package > .sticky > .btn').should('not.have.attr', 'href')
   })
-  it('[CT - 024] O usuário clica no link "info@phptravels.com" na tela Pricing e é redirecionado com sucesso para o email, com o destinatario já preenchido.', () =>{
+  it('[CT - 027] O usuário clica no link "info@phptravels.com" na tela Pricing e é redirecionado com sucesso para o email, com o destinatario já preenchido.', () =>{
     cy.get('.mb3 > :nth-child(3) > .waves-effect').should('have.attr', 'href')
   })
 })
